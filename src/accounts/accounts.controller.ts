@@ -10,9 +10,12 @@ import {
 } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { AccountsService } from './accounts.service';
 
 @Controller('accounts')
 export class AccountsController {
+  constructor(private readonly accountsService: AccountsService) {}
+
   /**
    * GET /accounts/
    * @returns json object of all accounts
@@ -63,23 +66,29 @@ export class AccountsController {
 
   /**
    * POST /accounts/{id}/transactions/add
-   * @param createTransactionDto transaction object to save
+   * @param addTransactionDto transaction object to save
    * @returns message for success or failure
    */
   @Post(':id/transactions/add')
-  addTransaction(@Body() createTransactionDto: CreateTransactionDto): string {
+  addTransaction(@Body() addTransactionDto: CreateTransactionDto): string {
     return `The transaction for deposit has been created for account id`;
   }
 
+  /**
+   * POST /accounts/{id}/transactions/withdraw
+   */
   @Post(':id/transactions/withdraw')
   withdrawTransaction(
-    @Body() createTransactionDto: CreateTransactionDto,
+    @Body() withdrawTransactionDto: CreateTransactionDto,
   ): string {
     return `The transaction for withdraw has been created for account id`;
   }
 
+  /**
+   * POST /accounts/{id}/transactions/send
+   */
   @Post(':id/transactions/send')
-  sendTransaction(@Body() createTransactionDto: CreateTransactionDto): string {
+  sendTransaction(@Body() sendTransactionDto: CreateTransactionDto): string {
     return `The transaction for sending money has been created for account id to target account id`;
   }
 }

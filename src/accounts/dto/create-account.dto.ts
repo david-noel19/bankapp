@@ -4,7 +4,7 @@ type balanceType = {
 };
 
 export class CreateAccountDto {
-  readonly id: number;
+  id: number;
   readonly given_name: string;
   readonly family_name: string;
   readonly email_address: string;

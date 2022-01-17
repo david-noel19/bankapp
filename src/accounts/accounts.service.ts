@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AccountsService {
@@ -15,7 +16,7 @@ export class AccountsService {
   }
 
   findOne(id: number): string {
-    const account = this.accounts.find((account) => (account.id = id));
+    const account = this.accounts.find((account) => account.id === id);
     return account;
   }
 
@@ -23,33 +24,44 @@ export class AccountsService {
     return this.transactions;
   }
 
-  findOneTransaction(id: number): string {
-    const transaction = this.transactions.find(
-      (transaction) => (transaction.id = id),
+  findTransactionsOneAccount(id: string): string[] {
+    let result: string[] = [];
+    this.transactions.forEach((transaction) =>
+      transaction.target_account_id === id ? result.push(transaction) : '',
     );
-    return transaction;
+    return result;
   }
 
   /**
    * POST Paths
    */
   createAccount(account: CreateAccountDto): string {
+    account.id = uuidv4();
     this.accounts.push(account);
     return `Account created successfully for account id ${account.id}`;
   }
 
-  addTransaction(transaction: CreateTransactionDto): string {
+  addTransaction(transaction: CreateTransactionDto, id: string): string {
+    transaction.target_account_id = id;
+    transaction.id = uuidv4();
+    transaction.type = 0;
     this.transactions.push(transaction);
     return `Add Transaction created successfully for target account id ${transaction.target_account_id}`;
   }
 
-  withdrawTransaction(transaction: CreateTransactionDto): string {
+  withdrawTransaction(transaction: CreateTransactionDto, id: string): string {
+    transaction.target_account_id = id;
+    transaction.id = uuidv4();
+    transaction.type = 1;
     this.transactions.push(transaction);
-    return `Withdraw Transaction created successfuly for target account id ${transaction.target_account_id}`;
+    return `Withdraw Transaction created successfully for target account id ${transaction.target_account_id}`;
   }
 
-  sendTransaction(transaction: CreateTransactionDto): string {
+  sendTransaction(transaction: CreateTransactionDto, id: string): string {
+    transaction.target_account_id = id;
+    transaction.id = uuidv4();
+    transaction.type = 2;
     this.transactions.push(transaction);
-    return `Send Transaction created successfuly for target account id ${transaction.target_account_id}`;
+    return `Send Transaction created successfully for target account id ${transaction.target_account_id}`;
   }
 }

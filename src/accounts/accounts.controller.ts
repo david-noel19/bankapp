@@ -26,22 +26,22 @@ export class AccountsController {
   }
 
   /**
+   * GET /accounts/transactions
+   * @returns json object of all transactions
+   */
+  @Get('/transactions')
+  findTransactions(): string[] {
+    return this.accountsService.findTransactions();
+  }
+
+  /**
    * GET /accounts/{id}
    * @param id account id
    * @returns account information for specific account
    */
   @Get(':id')
-  findOne(@Param('id') id): string {
-    return `Account: ${id}`;
-  }
-
-  /**
-   * GET /accounts/transactions
-   * @returns json object of all transactions
-   */
-  @Get('/transactions')
-  findTransactions(): string {
-    return `This will get all the transactions`;
+  findOne(@Param('id') id: number): string {
+    return this.accountsService.findOne(id);
   }
 
   /**
@@ -50,8 +50,8 @@ export class AccountsController {
    * @returns json object of all account transactions
    */
   @Get(':id/transactions')
-  findOneTransaction(@Param('id') id): string {
-    return this.accountsService.findOneTransaction(id);
+  findTransactionsOneAccount(@Param('id') id): string[] {
+    return this.accountsService.findTransactionsOneAccount(id);
   }
 
   /**
@@ -70,8 +70,11 @@ export class AccountsController {
    * @returns message for success or failure
    */
   @Post(':id/transactions/add')
-  addTransaction(@Body() addTransactionDto: CreateTransactionDto): string {
-    return `The transaction for deposit has been created for account id`;
+  addTransaction(
+    @Body() addTransactionDto: CreateTransactionDto,
+    @Param('id') id,
+  ): string {
+    return this.accountsService.addTransaction(addTransactionDto, id);
   }
 
   /**
@@ -80,15 +83,19 @@ export class AccountsController {
   @Post(':id/transactions/withdraw')
   withdrawTransaction(
     @Body() withdrawTransactionDto: CreateTransactionDto,
+    @Param('id') id,
   ): string {
-    return `The transaction for withdraw has been created for account id`;
+    return this.accountsService.withdrawTransaction(withdrawTransactionDto, id);
   }
 
   /**
    * POST /accounts/{id}/transactions/send
    */
   @Post(':id/transactions/send')
-  sendTransaction(@Body() sendTransactionDto: CreateTransactionDto): string {
-    return `The transaction for sending money has been created for account id to target account id`;
+  sendTransaction(
+    @Body() sendTransactionDto: CreateTransactionDto,
+    @Param('id') id,
+  ): string {
+    return this.accountsService.sendTransaction(sendTransactionDto, id);
   }
 }

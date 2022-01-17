@@ -10,9 +10,9 @@ enum transactionEnum {
 }
 
 export class CreateTransactionDto {
-  readonly id: number;
+  id: string;
   readonly note: string;
-  readonly type: transactionEnum;
-  readonly target_account_id: string;
+  type: transactionEnum;
+  target_account_id: string;
   readonly amount_money: amountMoneyType;
 }

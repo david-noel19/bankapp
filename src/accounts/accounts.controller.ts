@@ -1,16 +1,8 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Query,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { AccountsService } from './accounts.service';
+import { SendTransactionDto } from './dto/create-send-transaction.dto';
 
 @Controller('accounts')
 export class AccountsController {
@@ -93,7 +85,7 @@ export class AccountsController {
    */
   @Post(':id/transactions/send')
   sendTransaction(
-    @Body() sendTransactionDto: CreateTransactionDto,
+    @Body() sendTransactionDto: SendTransactionDto,
     @Param('id') id,
   ): string {
     return this.accountsService.sendTransaction(sendTransactionDto, id);

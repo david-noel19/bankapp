@@ -3,7 +3,7 @@ import { CreateAccountDto } from './dto/create-account.dto';
 
 @Injectable()
 export class AccountsService {
-    private readonly accounts: any[];
+    private accounts: any[] = [];
 
     findAll(): string[] {
         return this.accounts;

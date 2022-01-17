@@ -51,7 +51,7 @@ export class AccountsController {
    */
   @Get(':id/transactions')
   findOneTransaction(@Param('id') id): string {
-    return `This is a transaction for id ${id}`;
+    return this.accountsService.findOneTransaction(id);
   }
 
   /**

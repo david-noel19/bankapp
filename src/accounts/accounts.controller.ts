@@ -21,8 +21,8 @@ export class AccountsController {
    * @returns json object of all accounts
    */
   @Get()
-  findAll(): string {
-    return 'Get all items';
+  findAll(): string[] {
+    return this.accountsService.findAll();
   }
 
   /**
@@ -61,7 +61,7 @@ export class AccountsController {
    */
   @Post()
   createAccount(@Body() createAccountDto: CreateAccountDto): string {
-    return `The account has been created successfully!`;
+    return this.accountsService.createAccount(createAccountDto);
   }
 
   /**

@@ -1,10 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { CreateAccountDto } from './dto/create-account.dto';
 
 @Injectable()
 export class AccountsService {
-    private readonly account[] = [];
+    private readonly accounts: any[];
 
-    findAll(): Account[] {
-        return this.Accoun
+    findAll(): string[] {
+        return this.accounts;
+    }
+
+    createAccount(account: CreateAccountDto): string {
+        this.accounts.push(account);
+        return "Account created successfully";
     }
 }
